@@ -2,6 +2,15 @@
 #define CHATGUI_H_
 
 #include <wx/wx.h>
+#include <memory>
+
+/* TODO 1:
+In file chatgui.h / chatgui.cpp, make _chatLogic an
+exclusive resource to class ChatbotPanelDialog using
+an appropriate smart pointer. Where required, make
+changes to the code such that data structures and
+function parameters reflect the new structure.
+ */
 
 class ChatLogic; // forward declaration
 
@@ -16,7 +25,7 @@ private:
     //// STUDENT CODE
     ////
 
-    ChatLogic *_chatLogic;
+    std::unique_ptr<ChatLogic> _chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -27,7 +36,7 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    std::unique_ptr<ChatLogic> &GetChatLogicHandle() { return _chatLogic; }
 
     // events
     void paintEvent(wxPaintEvent &evt);
