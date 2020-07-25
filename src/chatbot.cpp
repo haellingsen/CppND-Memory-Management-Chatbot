@@ -8,6 +8,17 @@
 #include "graphedge.h"
 #include "chatbot.h"
 
+
+/* In file chatbot.h / chatbot.cpp, make changes to the class
+ ChatBot such that it complies with the Rule of Five. Make
+sure to properly allocate / deallocate memory resources on
+the heap and also copy member data where it makes sense
+to you. In each of the methods (e.g. the copy constructor),
+print a string of the type „ChatBot Copy Constructor“ to
+the console so that you can see which method is called in
+later examples.
+ */
+
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
@@ -21,7 +32,7 @@ ChatBot::ChatBot()
 ChatBot::ChatBot(std::string filename)
 {
     std::cout << "ChatBot Constructor" << std::endl;
-    
+
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -44,6 +55,79 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+
+// copy constructor
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+    _image = new wxBitmap(source._image->ConvertToImage());
+    _chatLogic->SetChatbotHandle(this);
+}
+
+// copy assignment
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+    std::cout << "ChatBot Copy Assignment Constructor" << std::endl;
+    if (this == &source)
+        return *this;
+
+    if (_image != nullptr)
+        delete _image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+    _image = new wxBitmap(source._image->ConvertToImage());
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
+}
+
+// move constructor
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+    _chatLogic =    source._chatLogic;
+    _rootNode =     source._rootNode;
+    _currentNode =  source._currentNode;
+    _image = new wxBitmap(source._image->ConvertToImage());
+    _chatLogic->SetChatbotHandle(this);
+
+    // invalidate the source pointers
+    source._chatLogic       = nullptr;
+    source._rootNode        = nullptr;
+    source._currentNode     = nullptr;
+    // memory leak if I do this... Need to be cleaned by the destructor
+    // source._image           = nullptr;
+}
+
+// move assignment
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+    if (this == &source)
+        return *this;
+
+    if (_image != nullptr)
+        delete _image;
+
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    _currentNode = source._currentNode;
+    _image = new wxBitmap(source._image->ConvertToImage());
+    _chatLogic->SetChatbotHandle(this);
+
+    // invalidate the source pointers
+    source._chatLogic       = nullptr;
+    source._rootNode        = nullptr;
+    source._currentNode     = nullptr;
+    // memory leak if I do this... Need to be cleaned by the destructor
+    // source._image           = nullptr;
+    return *this;
+
+}
+
 
 ////
 //// EOF STUDENT CODE
