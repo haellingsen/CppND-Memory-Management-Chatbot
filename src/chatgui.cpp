@@ -96,7 +96,7 @@ void ChatBotFrameImagePanel::render(wxDC &dc)
     wxSize sz = this->GetSize();
     wxImage imgSmall = image.Rescale(sz.GetWidth(), sz.GetHeight(), wxIMAGE_QUALITY_HIGH);
     _image = wxBitmap(imgSmall);
-    
+
     dc.DrawBitmap(_image, 0, 0, false);
 }
 
@@ -134,6 +134,8 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
 {
     //// STUDENT CODE
     ////
+
+    std::cout << "ChatBotPanelDialog Desctructor" << std::endl;
 
     delete _chatLogic;
 
