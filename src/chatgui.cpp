@@ -101,7 +101,7 @@ void ChatBotFrameImagePanel::paintNow()
 
 void ChatBotFrameImagePanel::render(wxDC &dc)
 {
-    // load backgroud image from file
+    // load background image from file
     wxString imgFile = imgBasePath + "sf_bridge.jpg";
     wxImage image;
     image.LoadFile(imgFile);

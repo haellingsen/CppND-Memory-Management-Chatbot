@@ -10,6 +10,22 @@ class ChatBot;
 class GraphEdge;
 class GraphNode;
 
+
+/* Task 4 : Moving Smart Pointers
+
+DONE 1: In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp
+change the ownership of all instances of GraphEdge in a way such that each
+instance of GraphNode exclusively owns the outgoing GraphEdges and holds
+non-owning references to incoming GraphEdges.
+
+DONE 2: Use appropriate smart pointers and where required, make changes to the
+code such that data structures and function parameters reflect the changes.
+
+DONE 3: When transferring ownership from class ChatLogic,
+where all instances of GraphEdge are created, into instances of GraphNode, make
+sure to use move semantics.
+ */
+
 class ChatLogic
 {
 private:
@@ -17,7 +33,7 @@ private:
     ////
 
     // data handles (owned)
-    std::vector<GraphNode *> _nodes;
+    std::vector<std::unique_ptr<GraphNode>> _nodes;
     std::vector<GraphEdge *> _edges;
 
     ////

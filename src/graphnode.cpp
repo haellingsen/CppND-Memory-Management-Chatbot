@@ -11,7 +11,7 @@ GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
-    std::cout << "GraphNode Desctructor" << std::endl;
+    std::cout << "GraphNode Desctructor node: " << _id << std::endl;
     ////
     //// EOF STUDENT CODE
 }
@@ -26,9 +26,9 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> &&edge)
 {
-    _childEdges.push_back(edge);
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
@@ -52,7 +52,7 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
     //// STUDENT CODE
     ////
 
-    return _childEdges[index];
+    return _childEdges[index].get();
 
     ////
     //// EOF STUDENT CODE
