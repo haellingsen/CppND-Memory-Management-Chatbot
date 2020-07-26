@@ -12,19 +12,25 @@
 #include "chatbot.h"
 #include "chatlogic.h"
 
-/* Task 4 : Moving Smart Pointers
+/*
+Task 5 : Moving the ChatBot
 
-DONE 1: In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp
-change the ownership of all instances of GraphEdge in a way such that each
-instance of GraphNode exclusively owns the outgoing GraphEdges and holds
-non-owning references to incoming GraphEdges.
+In file chatlogic.cpp, create a local ChatBot instance on the stack at the
+bottom of function LoadAnswerGraphFromFile. Then, use move semantics to pass
+the ChatBot instance into the root node. Make sure that ChatLogic has no
+ownership relation to the ChatBot instance and thus is no longer responsible
+for memory allocation and deallocation. Note that the member _chatBot remains
+so it can be used as a communication handle between GUI and ChatBot instance.
+Make all required changes in files chatlogic.h / chatlogic.cpp and graphnode.h
+/ graphnode.cpp. When the program is executed, messages on which part of the Rule
+of Five components of ChatBot is called should be printed to the console. When sending
+a query to the ChatBot, the output should look like the following:
 
-DONE 2: Use appropriate smart pointers and where required, make changes to the
-code such that data structures and function parameters reflect the changes.
-
-DONE 3: When transferring ownership from class ChatLogic,
-where all instances of GraphEdge are created, into instances of GraphNode, make
-sure to use move semantics.
+ChatBot Constructor
+ChatBot Move Constructor
+ChatBot Move Assignment Operator
+ChatBot Destructor
+ChatBot Destructor
  */
 
 ChatLogic::ChatLogic()
@@ -33,10 +39,10 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -50,7 +56,7 @@ ChatLogic::~ChatLogic()
     std::cout << "ChatLogic Destructor" << std::endl;
 
     // delete chatbot instance
-    delete _chatBot;
+    // delete _chatBot;
 
     ////
     //// EOF STUDENT CODE
@@ -221,8 +227,11 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
+    ChatBot bot("../images/chatbot.png");
+    _chatBot = &bot;
+    _chatBot->SetChatLogicHandle(this);
     _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    rootNode->MoveChatbotHere(std::move(*_chatBot));
 
     ////
     //// EOF STUDENT CODE
