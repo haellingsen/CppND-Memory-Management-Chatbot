@@ -4,7 +4,9 @@
 #include <wx/wx.h>
 #include <memory>
 
-/* TODO 1:
+/* TASK 1:
+
+DONE 1:
 In file chatgui.h / chatgui.cpp, make _chatLogic an
 exclusive resource to class ChatbotPanelDialog using
 an appropriate smart pointer. Where required, make
